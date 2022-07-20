@@ -21,7 +21,7 @@
     cd .../openserver/domains/server
     composer install
     move .env.example to .env
-    Create DB and FIX to YOUR DB
+    Create DB and FIX to YOUR DB in .env
         DB_CONNECTION=mysql
         DB_HOST=127.0.0.1
         DB_PORT=3306
