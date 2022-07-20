@@ -3,7 +3,7 @@ import createPersistedState from "vuex-persistedstate";
 import { authModule } from  '@/store/modules/AuthModule'
 
 export const HOST_URL = process.env.host || "http://localhost:8000";
-export const HOST_API_URL = process.env.host || "http://localhost:8000/api";
+export const HOST_API_URL = process.env.host || `${HOST_URL}/api`;
 
 export const ROLE_ADMIN_ID = 1;
 
