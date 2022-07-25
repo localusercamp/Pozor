@@ -31,8 +31,8 @@ class GenreController extends Controller
      */
     public function store(GenreStoreRequest $request)
     {
-        if(Auth::user()->role_id != Role::ADMIN_ID) {
-            return Response::HTTP_FORBIDDEN;
+        if(Auth::user()->role_id != Role::ADMIN_ID) { // REFACTOR TRANSFER TO USER CHECK FUNCTION OR ATTRIBUTE
+            return Response::HTTP_FORBIDDEN; // OVERDOSE INT RETURN ?
         }
         $created_genre = Genre::create($request->validated());
 

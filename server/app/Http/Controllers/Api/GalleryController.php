@@ -33,11 +33,12 @@ class GalleryController extends Controller
     public function uploadById(int $id, FileStoreRequest $request)
     {
         $currentMovie = Movie::findorFail($id);
-        if($currentMovie != null)
+        if($currentMovie != null) // REFACTOR TO GUARD-TYPE IF
         {
             $file = $request->file('image');
             if($file != null) {
-
+                
+                // REFACTOR? UNITE INTO SINGLE FUNC?
                 $name = File::generateUniqueFilename();
                 $extension = File::generateFileExtension($file);
                 $path = File::generateSavedPath($currentMovie->title,File::GALLERY_PATH);
@@ -50,7 +51,7 @@ class GalleryController extends Controller
 
                 $isFileSaved = $created_gallery->saveFile($file);
                 //dd(Storage::url($created_poster->getPath()));
-                if ($isFileSaved) {
+                if ($isFileSaved) { // REFACTOR? EXCEPTION IF NOT SAVED?
 
                     $currentMovie->galleries()->attach($created_gallery->id);
 

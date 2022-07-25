@@ -25,7 +25,7 @@ class MovieController extends Controller
     public function index()
     {
         return MovieResource::collection(
-            Movie::with('author')
+            Movie::with('author') // REFACTOR with() CAN TAKE ARRAY OF RELATIONS
                 ->with('approver')
                 ->with('genres')
                 ->with('posters')
@@ -41,7 +41,7 @@ class MovieController extends Controller
      */
     public function store(MovieStoreRequest $request)
     {
-        $field = $request->validated();
+        $field = $request->validated(); // REFACTOR (NAMING) ARRAY OF FIELDS NAMED AS $field NOT $fields
 
         if($field['author_id'] != Auth::user()->id)
         {
@@ -49,7 +49,7 @@ class MovieController extends Controller
         }
 
         foreach($field['genres'] as $genre_id) {
-            Genre::findorFail($genre_id);
+            Genre::findorFail($genre_id); // OVERDOSE TYPO
         };
 
         $created_movie = Movie::create($field);
@@ -86,7 +86,7 @@ class MovieController extends Controller
      */
     public function getTrashMovie($id)
     {
-        $currentMovie = Movie::withTrashed()->where('id',$id)->first();
+        $currentMovie = Movie::withTrashed()->where('id',$id)->first(); // OVERDOSE WHAT IF NOT FOUND
         if($currentMovie->trashed()){
             if(Auth::user() != null) {
                 if ($currentMovie['author_id'] == Auth::user()->id) {
@@ -110,13 +110,13 @@ class MovieController extends Controller
      */
     public function getApproved(Request $request)
     {
-        if($request->has('page') or $request->has('limit')) {
-
+        if($request->has('page') or $request->has('limit')) {  // REFACTOR CAN BE CHANGED TO QUERYBUILDER when() METHOD
+            // OVERDOSE 'page' UNUSED 
             $perPage = $request->has('limit') ? $request->limit : 10;
             $approvedMovie = Movie::where('status_id','=',Status::APPROVED_ID)->paginate($perPage);
             return  MovieResource::collection($approvedMovie);
         }
-        else {
+        else { // REFACTOR CAN BE CHANGED TO QUERYBUILDER when() METHOD
             $approvedMovie = Movie::where('status_id','=',Status::APPROVED_ID)->get();
             return  MovieResource::collection($approvedMovie);
         }
@@ -187,8 +187,7 @@ class MovieController extends Controller
     public function publish($id)
     {
         $currentMovie = Movie::findorFail($id);
-        if($currentMovie == null)
-        {
+        if($currentMovie == null) {
             return response("",Response::HTTP_BAD_REQUEST);
         }
         if($currentMovie['author_id'] != Auth::user()->id)

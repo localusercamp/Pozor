@@ -11,11 +11,12 @@ class Role extends Model
     use HasFactory;
 
     const ADMIN_ID = 1;
-    const ADMIN = 'Administrator';
+    const ADMIN = 'Administrator'; // OVERDOSE BAD CONST
 
     const MODER_ID = 2;
-    const MODER = 'Moderator';
+    const MODER = 'Moderator'; // OVERDOSE BAD CONST
 
+    // OVERDOSE UNUSED FIELDS
     protected $hidden = [
         'created_at',
         'updated_at',
@@ -23,7 +24,7 @@ class Role extends Model
     /**
      * Get the users for the role.
      */
-    public function users() :HasMany
+    public function users(): HasMany
     {
         return $this->hasMany(User::class);
     }

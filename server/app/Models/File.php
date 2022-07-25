@@ -28,37 +28,36 @@ class File extends Model
 
     protected $guarded = [];
 
-    public function getFilename()
+    public function getFilename() // REFACTOR TO ATTRIBUTE
     {
         return $this->name . $this->extension;
     }
-    public function getUrl()
+    public function getUrl() // REFACTOR TO ATTRIBUTE
     {
         return Storage::url($this->path . '/' . $this->getFilename());
     }
 
-    public function SaveFile($file) : bool
+    public function SaveFile($file): bool
     {
-        if(!Storage::putFileAs($this->path,$file,$this->getFilename())) {
+        // REFACTOR SINGLE RETURN
+        if (!Storage::putFileAs($this->path, $file, $this->getFilename())) {
             return false;
         } else {
             return true;
         }
-
     }
 
-    public static function generateUniqueFilename() : string
+    public static function generateUniqueFilename(): string
     {
         return Str::uuid();
     }
-    public static function generateFileExtension($file) : string
+    public static function generateFileExtension($file): string
     {
         return  '.' . $file->extension();
     }
-    public static function generateSavedPath($movieTitle, $pathForFiletype) : string
+    public static function generateSavedPath($movieTitle, $pathForFiletype): string
     {
         $titleWithoutSpase = str_replace(' ', '', $movieTitle);
-        return 'public/'. $titleWithoutSpase . '/' . $pathForFiletype;
+        return 'public/' . $titleWithoutSpase . '/' . $pathForFiletype;
     }
-
 }

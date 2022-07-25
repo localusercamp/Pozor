@@ -21,9 +21,8 @@ class Genre extends Model
 
     protected $hidden = ['pivot'];
 
-    public function movies() :BelongsToMany
+    public function movies(): BelongsToMany
     {
-
         return $this->belongsToMany(Movie::class);
     }
 }

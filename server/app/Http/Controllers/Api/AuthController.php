@@ -11,20 +11,33 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    // OVERDOSE UNTYPED RESPONSE
+
     public function login(Request $request)
     {
+        // REFACTOR DIRTY SHIT
         if(!Auth::attempt($request->only('email','password'))) {
             return response([
                 'message' => 'Invalid credentials'
             ],Response::HTTP_UNAUTHORIZED);
         }
+        /* REFACTORED EXAMPLE
+        $credentails = $request->only('email','password');
 
-        $user = Auth::user();
+        if (!auth()->attempt($credentails)) return response(
+            ['message' => 'Invalid credentials'], 
+            Response::HTTP_UNAUTHORIZED
+        );
+        */
+
+        $user = Auth::user(); // REFACTOR FACADE USAGE WITH auth() HELPER
 
         $token = $user->createToken('token')->plainTextToken;
 
+        // REFACTOR SPACES
         $cookie = cookie('jwt', $token, 60*24*7,'/',null,null,false); // valid 7 day
 
+        // REFACTOR NOT PSR NEWLINES
         return response([
             'data' => new UserResource($user),
         ])->withCookie($cookie);
